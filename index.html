@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do List with Date</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .todo-container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .todo-container h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group input, .input-group button {
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .input-group button {
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .input-group button:hover {
+      background-color: #218838;
+    }
+
+    ul.todo-list {
+      list-style: none;
+    }
+
+    ul.todo-list li {
+      background: #f8f9fa;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    ul.todo-list li.completed span {
+      text-decoration: line-through;
+      color: #6c757d;
+    }
+
+    .task-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .task-buttons button {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .complete-btn {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .complete-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background-color: #c82333;
+    }
+
+    @media (max-width: 500px) {
+      .todo-container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="todo-container">
+    <h2>📝 My To-Do List</h2>
+    <div class="input-group">
+      <input type="text" id="taskInput" placeholder="Add a new task..." />
+      <input type="date" id="taskDate" />
+      <button onclick="addTask()">Add Task</button>
+    </div>
+    <ul class="todo-list" id="todoList"></ul>
+  </div>
+
+  <script>
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const taskDate = document.getElementById("taskDate");
+
+      const taskText = taskInput.value.trim();
+      const taskDueDate = taskDate.value;
+
+      if (taskText === "" || taskDueDate === "") {
+        alert("Please enter both task and date.");
+        return;
+      }
+
+      const li = document.createElement("li");
+
+      const taskDetails = document.createElement("div");
+      taskDetails.className = "task-details";
+
+      const span = document.createElement("span");
+      span.textContent = `${taskText} (Due: ${taskDueDate})`;
+
+      const buttonGroup = document.createElement("div");
+      buttonGroup.className = "task-buttons";
+
+      const completeBtn = document.createElement("button");
+      completeBtn.textContent = "Completed";
+      completeBtn.className = "complete-btn";
+      completeBtn.onclick = () => {
+        li.classList.toggle("completed");
+      };
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.className = "delete-btn";
+      deleteBtn.onclick = () => li.remove();
+
+      buttonGroup.appendChild(completeBtn);
+      buttonGroup.appendChild(deleteBtn);
+
+      taskDetails.appendChild(span);
+      taskDetails.appendChild(buttonGroup);
+
+      li.appendChild(taskDetails);
+      document.getElementById("todoList").appendChild(li);
+
+      taskInput.value = "";
+      taskDate.value = "";
+    }
+  </script>
+
+</body>
+</html>
